@@ -1,11 +1,12 @@
 .profile__image {
-    position: relative;
-    z-index: 2;
-    border-radius: 50%;
-    height: 120px;
     width: 120px;
-}
-
-.profile__image:hover {
+    height: 120px;
+    border-radius: 50%;
+    border: none;
+    opacity: 1;
+  }
+  
+  .profile__image:hover {
+    cursor: pointer;
     opacity: 0.2;
-}
+  }

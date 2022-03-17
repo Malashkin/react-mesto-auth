@@ -47,7 +47,7 @@ function App() {
                 <span className="popup__span input-title-error"> </span>
                 <input id="input-url" className="popup__input popup__input_image" type="url" placeholder="Ссылка на картинку" name="link" required/>
                 <span className="popup__span input-url-error"> </span>
-                <button type="submit" className="popup__button popup__button_disabled">Создать</button>
+                <button type="submit" className="popup__button popup__button_disabled">Сохранить</button>
             </form>
         </div>
     </div>
