@@ -1,7 +1,8 @@
 import React from 'react';
 import './../index.css';
-import mainLogo from './../images/Vector.svg' 
+import Footer from './Footer';
 import Header from './Header';
+import Main from './Main';
 
 
 function App() {
@@ -9,27 +10,8 @@ function App() {
     <div className="body">
     <div className="page">
         <Header />
-    <main className="content">
-        <section className="profile">
-            <div className="profile__card">
-                <div className="profile__avatar">
-                    <img className="profile__image" src="../src/images/image.jpg" alt="Аватар"/>
-                    <button className="profile__edit"></button>
-                </div>
-                <div className="profile__info">
-                    <h1 className="profile__name">Жак-Ив-Кусто</h1>
-                    <button className="profile__button" type="button"></button>
-                    <p className="profile__spec">Исследователь океана</p>
-                </div>
-            </div>
-            <button className="profile__add" type="button"></button>
-        </section>
-        <section className="cards">
-        </section>
-    </main>
-    <footer className="footer">
-        <p className="footer__copyright">© 2022 Mesto Russia</p>
-    </footer>
+        <Main />
+        <Footer />
     <template className="cards__list">
         <div className="cards__conteiner">
             <img className="cards__image" src="." alt="."/>
@@ -48,9 +30,9 @@ function App() {
             <button className="popup__close popup__close_edit" type="button"></button>
             <form className="popup__form popup__form_type_edit" name="formEdit" noValidate>
                 <h2 className="popup__title">Редактировать профиль</h2>
-                <input id="input-name" className="popup__input popup__input_name" type="text" placeholder="Имя" value="" name="name" required minLength="2" maxLength="40"/>
+                <input id="input-name" className="popup__input popup__input_name" type="text" placeholder="Имя" defaultValue="" name="name" required minLength="2" maxLength="40"/>
                 <span className="popup__span input-name-error"></span>
-                <input id="input-job" className="popup__input popup__input_job" type="text" placeholder="О себе" value="" name="about" required minLength="2" maxLength="200"/>
+                <input id="input-job" className="popup__input popup__input_job" type="text" placeholder="О себе" defaultValue="" name="about" required minLength="2" maxLength="200"/>
                 <span className="popup__span input-job-error"></span>
                 <button type="submit" className="popup__button popup__button_disabled" disabled>Сохранить</button>
             </form>
