@@ -1,0 +1,10 @@
+.profile__edit {
+    background-image: url(../../../images/VectorPen.svg);
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    margin: 50px 50px;
+    background-color: transparent;
+    border: none;
+    z-index: 1;
+}
