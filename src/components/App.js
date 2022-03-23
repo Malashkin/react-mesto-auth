@@ -4,7 +4,7 @@ import Footer from './Footer';
 import Header from './Header';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
-import PopupImage from './ImagePopup';
+import ImagePopup from './ImagePopup';
 
 
 function App() {
@@ -66,7 +66,7 @@ function App() {
                 <span className="popup__span input-avatar-error"> </span>
                 <button type="submit" className="popup__button">Сохранить</button>
     </PopupWithForm>
-    <PopupImage onClose={closeAllPopups} card={selectedCard} />
+    <ImagePopup onClose={closeAllPopups} card={selectedCard} />
 </div>
 </div>
   );
