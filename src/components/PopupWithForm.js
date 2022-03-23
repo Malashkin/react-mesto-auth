@@ -1,20 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class PopupWithForm extends React.Component {
+    const PopupWithForm = ({isOpen, onClose, name, title, children}) => {
+        if(isOpen) {
+            document.addEventListener("keydown", (evt) => {
+                if (evt.key === "Escape") {
+                    onClose();
+                }
+            });
+        }
 
-    render() { 
-        return <React.Fragment>
-               <div id='popupEdit' className={`popup popup_type_${props.name}`}>
-        <div className="popup__content">
-            <button className="popup__close popup__close_edit" type="button"></button>
-            <form className="popup__form popup__form_type_edit" name="formEdit" noValidate>
-                <h2 className="popup__title">{this.title}</h2>
-                <button type="submit" className="popup__button popup__button_disabled" disabled>Coхранить</button>
-            </form>
+    return <React.Fragment>
+        <div id={`popup_${name}`} className={`popup ${isOpen && 'popup_type_opened'}`}>
+            <div className="popup__content">
+                <button onClick={onClose} className="popup__close" type="button"></button>
+                <form className={`popup__form popup__form_type_${name}`} name="formEdit" noValidate>
+                    <h2 className="popup__title">{title}</h2>
+                    {children}
+                </form>
+            </div>
+            <div onClick={onClose} className="popup__overlay" />
         </div>
-    </div>
         </React.Fragment>;
-    }
 }
- 
+
 export default PopupWithForm;

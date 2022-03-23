@@ -1,7 +1,7 @@
+@import url(./blocks/root/root.css);
 @import url(./vendor/normalize.css);
 @import url(./vendor/fonts.css);
 @import url(./blocks/body/body.css);
-@import url(./blocks/page/page.css);
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
 @import url(./blocks/profile/profile.css);
@@ -44,3 +44,4 @@
 @import url(./blocks/popup/__image/popup__image.css);
 @import url(./blocks/popup/__subtitle/popup__subtitle.css);
 @import url(./blocks/popup/__error/_visible/popup__error_visible.css);
+@import url(./blocks/popup/__overlay/popup__overlay.css);

@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import mainLogo from './../images/Vector.svg' 
 
-class Header extends React.Component {
-    render() { 
+function Header () { 
         return (
             <React.Fragment> 
                 <div className="header">
@@ -10,7 +9,6 @@ class Header extends React.Component {
                  </div>
             </React.Fragment>
         )
-    }
 }
  
 export default Header;
