@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PopupImage = ({card, onClose}) => {
+const ImagePopup = ({card, onClose}) => {
 if(!card) {
     return null
 }
@@ -18,4 +18,4 @@ if(!card) {
         </React.Fragment>)
 }
 
-export default PopupImage;
+export default ImagePopup;
