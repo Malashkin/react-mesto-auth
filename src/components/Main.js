@@ -51,9 +51,11 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
           ></button>
         </section>
         <section className="cards">
-          {cards.map((card) => (
-            <Card card={card} onCardClick={onCardClick} key={card._id} />
-          ))}
+          <CurrentUserContext.Provider value={currentUser}>
+            {cards.map((card) => (
+              <Card card={card} onCardClick={onCardClick} key={card._id} />
+            ))}
+          </CurrentUserContext.Provider>
         </section>
       </main>
     </React.Fragment>

@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import CurrentUserContext from "./CurrentUserContext";
 
 const Card = ({ card, onCardClick }) => {
+  const currentUser = useContext(CurrentUserContext);
+  const isOwn = card.owner._id === currentUser._id;
+  const cardDeleteButtonClassName = `${
+    isOwn ? "cards__trashicon" : "cards__trashicon_deactive"
+  }`;
+
   function handleClick() {
     onCardClick(card);
   }
@@ -13,7 +20,7 @@ const Card = ({ card, onCardClick }) => {
         src={card.link}
         alt={card.name}
       />
-      <button type="button" className="cards__trashicon"></button>
+      <button type="button" className={cardDeleteButtonClassName}></button>
       <div className="cards__description">
         <h2 className="cards__title">{card.name}</h2>
         <div className="cards__reaction">
