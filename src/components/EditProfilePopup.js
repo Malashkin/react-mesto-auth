@@ -1,19 +1,52 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+import CurrentUserContext from "./CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-const EditProfilePopup = ({ isOpen, onClose }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const currentUser = useContext(CurrentUserContext);
+
+  const handelChangeName = (e) => {
+    setName(e.target.value);
+  };
+
+  const handelChangeDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handelSubmit = (e) => {
+    e.preventDefault();
+    onUpdateUser({
+      name,
+      about: description,
+    });
+  };
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser]);
+
   return (
-    <PopupWithForm isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handelSubmit}
+      name="popup_edit"
+      title="Редактировать профиль"
+    >
       <input
         id="input-name"
         className="popup__input popup__input_name"
         type="text"
+        value={name || ""}
         placeholder="Имя"
-        defaultValue=""
         name="name"
         required
         minLength="2"
         maxLength="40"
+        onChange={handelChangeName}
       />
       <span className="popup__span input-name-error"></span>
       <input
@@ -21,18 +54,15 @@ const EditProfilePopup = ({ isOpen, onClose }) => {
         className="popup__input popup__input_job"
         type="text"
         placeholder="О себе"
-        defaultValue=""
-        name="about"
+        value={description || ""}
+        name="description"
         required
         minLength="2"
         maxLength="200"
+        onChange={handelChangeDescription}
       />
       <span className="popup__span input-job-error"></span>
-      <button
-        type="submit"
-        className="popup__button popup__button_disabled"
-        disabled
-      >
+      <button type="submit" className="popup__button">
         Сохранить
       </button>
     </PopupWithForm>

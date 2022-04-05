@@ -95,6 +95,18 @@ function App() {
       });
   };
 
+  const handleUpdateUser = (user) => {
+    api
+      .setUserInfo(user)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка при редактировании профиля ${err}`);
+      });
+  };
+
   return (
     <div className="body">
       <div className="page">
@@ -110,8 +122,8 @@ function App() {
             cards={cards}
           />
           <Footer />
-
           <EditProfilePopup
+            onUpdateUser={handleUpdateUser}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
           />

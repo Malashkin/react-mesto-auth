@@ -1,6 +1,13 @@
 import React from "react";
 
-const PopupWithForm = ({ isOpen, onClose, name, title, children }) => {
+const PopupWithForm = ({
+  isOpen,
+  onClose,
+  name,
+  title,
+  children,
+  onSubmit,
+}) => {
   if (isOpen) {
     document.addEventListener("keydown", (evt) => {
       if (evt.key === "Escape") {
@@ -21,6 +28,7 @@ const PopupWithForm = ({ isOpen, onClose, name, title, children }) => {
           type="button"
         ></button>
         <form
+          onSubmit={onSubmit}
           className={`popup__form popup__form_type_${name}`}
           name="formEdit"
           noValidate
