@@ -3,7 +3,14 @@ import api from "../utils/api";
 import Card from "./Card";
 import CurrentUserContext from "./CurrentUserContext";
 
-const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
+const Main = ({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) => {
   const [cards, setCards] = useState([]);
   const currentUser = useContext(CurrentUserContext);
 
@@ -53,7 +60,13 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
         <section className="cards">
           <CurrentUserContext.Provider value={currentUser}>
             {cards.map((card) => (
-              <Card card={card} onCardClick={onCardClick} key={card._id} />
+              <Card
+                card={card}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
+                key={card._id}
+              />
             ))}
           </CurrentUserContext.Provider>
         </section>

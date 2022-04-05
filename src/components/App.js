@@ -14,6 +14,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState("Загружаем...");
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api
@@ -21,6 +22,15 @@ function App() {
       .then((res) => {
         setCurrentUser({ ...res });
       })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((res) => setCards(res))
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
@@ -48,6 +58,41 @@ function App() {
   function handleClick(card) {
     setSelectedCard(card);
   }
+  const handleLikeClick = (card) => {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    !isLiked
+      ? api
+          .changeLikeCardStatus(card._id)
+          .then((newCard) => {
+            setCards((state) =>
+              state.map((c) => (c._id === card._id ? newCard : c))
+            );
+          })
+          .catch((err) => {
+            console.log(`Ошибка ${err}`);
+          })
+      : api
+          .deleteCardLike(card._id)
+          .then((newCard) => {
+            setCards((state) =>
+              state.map((c) => (c._id === card._id ? newCard : c))
+            );
+          })
+          .catch((err) => {
+            console.log(`Ошибка ${err}`);
+          });
+  };
+
+  const handleCardDelete = (card) => {
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== card._id));
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}`);
+      });
+  };
 
   return (
     <div className="body">
@@ -59,6 +104,8 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handelAvatarClick}
             onCardClick={handleClick}
+            onCardLike={handleLikeClick}
+            onCardDelete={handleCardDelete}
           />
           <Footer />
           <PopupWithForm
