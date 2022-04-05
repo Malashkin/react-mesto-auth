@@ -7,6 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import CurrentUserContext from "./CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -109,44 +110,11 @@ function App() {
             cards={cards}
           />
           <Footer />
-          <PopupWithForm
-            name="edit"
-            title="Редактировать профиль"
+
+          <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-          >
-            <input
-              id="input-name"
-              className="popup__input popup__input_name"
-              type="text"
-              placeholder="Имя"
-              defaultValue=""
-              name="name"
-              required
-              minLength="2"
-              maxLength="40"
-            />
-            <span className="popup__span input-name-error"></span>
-            <input
-              id="input-job"
-              className="popup__input popup__input_job"
-              type="text"
-              placeholder="О себе"
-              defaultValue=""
-              name="about"
-              required
-              minLength="2"
-              maxLength="200"
-            />
-            <span className="popup__span input-job-error"></span>
-            <button
-              type="submit"
-              className="popup__button popup__button_disabled"
-              disabled
-            >
-              Сохранить
-            </button>
-          </PopupWithForm>
+          />
           <PopupWithForm
             name="add"
             title="Новое место"
