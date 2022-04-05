@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import api from "../utils/api";
+import React, { useContext } from "react";
 import Card from "./Card";
 import CurrentUserContext from "./CurrentUserContext";
 
@@ -10,18 +9,9 @@ const Main = ({
   onCardClick,
   onCardLike,
   onCardDelete,
+  cards,
 }) => {
-  const [cards, setCards] = useState([]);
   const currentUser = useContext(CurrentUserContext);
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => setCards(res))
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);
 
   return (
     <React.Fragment>

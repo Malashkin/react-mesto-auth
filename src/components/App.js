@@ -106,6 +106,7 @@ function App() {
             onCardClick={handleClick}
             onCardLike={handleLikeClick}
             onCardDelete={handleCardDelete}
+            cards={cards}
           />
           <Footer />
           <PopupWithForm
