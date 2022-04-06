@@ -9,6 +9,7 @@ import api from "../utils/api";
 import CurrentUserContext from "./CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -31,7 +32,7 @@ function App() {
 
   useEffect(() => {
     api
-      .getInitialCards()
+      .getCardList()
       .then((res) => setCards(res))
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -120,6 +121,18 @@ function App() {
       });
   };
 
+  const handleAddPlaceSubmit = (card) => {
+    api
+      .createCard(card)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}`);
+      });
+  };
+
   return (
     <div className="body">
       <div className="page">
@@ -141,39 +154,16 @@ function App() {
             onClose={closeAllPopups}
           />
           <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-          <PopupWithForm
-            name="add"
-            title="Новое место"
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-          >
-            <input
-              id="input-title"
-              className="popup__input popup__input_title"
-              type="text"
-              placeholder="Название"
-              name="name"
-              minLength="2"
-              maxLength="30"
-              required
-            />
-            <span className="popup__span input-title-error"> </span>
-            <input
-              id="input-url"
-              className="popup__input popup__input_image"
-              type="url"
-              placeholder="Ссылка на картинку"
-              name="link"
-              required
-            />
-            <span className="popup__span input-url-error"> </span>
-            <button
-              type="submit"
-              className="popup__button popup__button_disabled"
-            >
-              Сохранить
-            </button>
-          </PopupWithForm>
+            onAddPlace={handleAddPlaceSubmit}
+          />
           <PopupWithForm
             name="delete"
             title="Вы уверены?"
@@ -184,11 +174,6 @@ function App() {
               Да
             </button>
           </PopupWithForm>
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
         </CurrentUserContext.Provider>
       </div>
     </div>

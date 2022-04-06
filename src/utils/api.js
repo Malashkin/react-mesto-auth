@@ -11,7 +11,7 @@ class Api {
     return Promise.reject(`Что-то пошло не так: ${res.status}`);
   }
 
-  getInitialCards() {
+  getCardList() {
     return fetch(`${this._baseUrl}cards/`, {
       method: "GET",
       headers: this._headers,
@@ -33,7 +33,7 @@ class Api {
     }).then(this._checkResult);
   }
 
-  createCardApi(data) {
+  createCard(data) {
     return fetch(`${this._baseUrl}cards/`, {
       method: "POST",
       headers: this._headers,
