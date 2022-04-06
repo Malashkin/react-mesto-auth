@@ -105,7 +105,7 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(`Ошибка при редактировании профиля ${err}`);
+        console.log(`Ошибка ${err}`);
       });
   };
 
