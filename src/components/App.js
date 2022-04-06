@@ -8,6 +8,7 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import CurrentUserContext from "./CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -107,6 +108,18 @@ function App() {
       });
   };
 
+  const handleUpdateAvatar = (userAvatar) => {
+    api
+      .editAvatar(userAvatar.avatar)
+      .then((newAvatar) => {
+        setCurrentUser(newAvatar);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}`);
+      });
+  };
+
   return (
     <div className="body">
       <div className="page">
@@ -127,6 +140,7 @@ function App() {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
           />
+          <ImagePopup onClose={closeAllPopups} card={selectedCard} />
           <PopupWithForm
             name="add"
             title="Новое место"
@@ -170,26 +184,11 @@ function App() {
               Да
             </button>
           </PopupWithForm>
-          <PopupWithForm
-            name="avatar"
-            title="Обновить аватар"
-            onClose={closeAllPopups}
+          <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
-          >
-            <input
-              id="input-avatar"
-              className="popup__input popup__input_avatar"
-              type="url"
-              placeholder="Ссылка на аватар"
-              name="avatar"
-              required
-            />
-            <span className="popup__span input-avatar-error"> </span>
-            <button type="submit" className="popup__button">
-              Сохранить
-            </button>
-          </PopupWithForm>
-          <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
         </CurrentUserContext.Provider>
       </div>
     </div>
