@@ -1,15 +1,28 @@
 import React, { useContext } from "react";
 import CurrentUserContext from "./CurrentUserContext";
 
-const Card = ({ card, onCardClick }) => {
+const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
   const currentUser = useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
   const cardDeleteButtonClassName = `${
     isOwn ? "cards__trashicon" : "cards__trashicon_deactive"
   }`;
 
+  const isLiked = card.likes.some((i) => i._id === currentUser._id);
+  const cardLikeButtonClassName = `cards__emotion ${
+    isLiked ? "cards__emotion_active" : ""
+  }`;
+
   function handleClick() {
     onCardClick(card);
+  }
+
+  function handleLikeClick() {
+    onCardLike(card);
+  }
+
+  function handleDeleteClick() {
+    onCardDelete(card);
   }
 
   return (
@@ -20,11 +33,19 @@ const Card = ({ card, onCardClick }) => {
         src={card.link}
         alt={card.name}
       />
-      <button type="button" className={cardDeleteButtonClassName}></button>
+      <button
+        type="button"
+        onClick={handleDeleteClick}
+        className={cardDeleteButtonClassName}
+      ></button>
       <div className="cards__description">
         <h2 className="cards__title">{card.name}</h2>
         <div className="cards__reaction">
-          <button type="button" className="cards__emotion"></button>
+          <button
+            type="button"
+            onClick={handleLikeClick}
+            className={cardLikeButtonClassName}
+          ></button>
           <p className="cards__counter">{card.likes.length}</p>
         </div>
       </div>

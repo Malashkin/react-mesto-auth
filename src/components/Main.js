@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
-import api from "../utils/api";
+import React, { useContext } from "react";
 import Card from "./Card";
 import CurrentUserContext from "./CurrentUserContext";
 
-const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
-  const [cards, setCards] = useState([]);
+const Main = ({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+  cards,
+}) => {
   const currentUser = useContext(CurrentUserContext);
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => setCards(res))
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);
 
   return (
     <React.Fragment>
@@ -53,7 +50,13 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
         <section className="cards">
           <CurrentUserContext.Provider value={currentUser}>
             {cards.map((card) => (
-              <Card card={card} onCardClick={onCardClick} key={card._id} />
+              <Card
+                card={card}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
+                key={card._id}
+              />
             ))}
           </CurrentUserContext.Provider>
         </section>
