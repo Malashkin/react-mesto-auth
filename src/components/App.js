@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./../index.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
@@ -16,7 +15,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState("Загружаем...");
+  const [currentUser, setCurrentUser] = useState([]);
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -28,9 +27,6 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
-  }, []);
-
-  useEffect(() => {
     api
       .getCardList()
       .then((res) => setCards(res))
