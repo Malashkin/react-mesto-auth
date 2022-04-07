@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 
 const PopupWithForm = ({
   isOpen,
@@ -8,16 +8,24 @@ const PopupWithForm = ({
   children,
   onSubmit,
 }) => {
-  useEffect(() => {
-    const handleEscClose = (e) => {
+  const handleEscClose = useCallback(
+    (e) => {
       if (e.key === "Escape") {
         onClose();
       }
+    },
+    [onClose]
+  );
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscClose);
+    }
+    return () => {
+      if (!isOpen) {
+        document.removeEventListener("keydown", handleEscClose);
+      }
     };
-    document.addEventListener("keydown", handleEscClose);
-
-    return () => document.removeEventListener("keydown", handleEscClose);
-  }, [onClose]);
+  }, [handleEscClose, isOpen]);
 
   return (
     <div
