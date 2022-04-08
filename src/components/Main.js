@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Card from "./Card";
-import CurrentUserContext from "./CurrentUserContext";
+import CurrentUserContext from "./../contexts/CurrentUserContext";
 
 const Main = ({
   onEditProfile,
