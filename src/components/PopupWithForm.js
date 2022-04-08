@@ -8,24 +8,20 @@ const PopupWithForm = ({
   children,
   onSubmit,
 }) => {
-  const handleEscClose = useCallback(
-    (e) => {
+  useEffect(() => {
+    const handleEscClose = (e) => {
       if (e.key === "Escape") {
         onClose();
       }
-    },
-    [onClose]
-  );
-  useEffect(() => {
+    };
+
     if (isOpen) {
       document.addEventListener("keydown", handleEscClose);
     }
     return () => {
-      if (!isOpen) {
-        document.removeEventListener("keydown", handleEscClose);
-      }
+      document.removeEventListener("keydown", handleEscClose);
     };
-  }, [handleEscClose, isOpen]);
+  }, [isOpen, onClose]);
 
   return (
     <div
