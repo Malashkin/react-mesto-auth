@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import CurrentUserContext from "./../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, buttonText }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const currentUser = useContext(CurrentUserContext);
@@ -63,7 +63,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
       />
       <span className="popup__span input-job-error"></span>
       <button type="submit" className="popup__button">
-        Сохранить
+        {buttonText}
       </button>
     </PopupWithForm>
   );

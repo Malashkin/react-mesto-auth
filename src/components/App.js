@@ -19,6 +19,10 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [deletingCard, setDeletingCard] = useState(null);
+  const [deletePopupButtonText, setDeletePopupButtonText] = useState("Да");
+  const [editProfilePopupButtonText, setEditProfilePopupButtonText] =
+    useState("Сохранить");
+  const [addPlacePopupButton, setAddPlacePopupButton] = useState("Сохранить");
 
   useEffect(() => {
     api
@@ -93,11 +97,13 @@ function App() {
 
   function handleCardDelete(e) {
     e.preventDefault();
+    setDeletePopupButtonText("Удаление...");
     api
       .deleteCard(deletingCard._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== deletingCard._id));
         setDeletingCard(null);
+        setDeletePopupButtonText("Да");
         closeAllPopups();
       })
       .catch((err) => {
@@ -106,10 +112,12 @@ function App() {
   }
 
   const handleUpdateUser = (user) => {
+    setEditProfilePopupButtonText("Сохранение...");
     api
       .setUserInfo(user)
       .then((res) => {
         setCurrentUser(res);
+        setEditProfilePopupButtonText("Сохранить");
         closeAllPopups();
       })
       .catch((err) => {
@@ -130,10 +138,12 @@ function App() {
   };
 
   const handleAddPlaceSubmit = (card) => {
+    setAddPlacePopupButton("Сохранение...");
     api
       .createCard(card)
       .then((newCard) => {
         setCards([newCard, ...cards]);
+        setAddPlacePopupButton("Сохранить");
         closeAllPopups();
       })
       .catch((err) => {
@@ -160,6 +170,7 @@ function App() {
             onUpdateUser={handleUpdateUser}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
+            buttonText={editProfilePopupButtonText}
           />
           <ImagePopup onClose={closeAllPopups} card={selectedCard} />
           <EditAvatarPopup
@@ -171,11 +182,13 @@ function App() {
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
+            buttonText={addPlacePopupButton}
           />
           <DeletePopup
             isOpen={isDeletePopupOpen}
             onClose={closeAllPopups}
             onSubmit={handleCardDelete}
+            buttonText={deletePopupButtonText}
           />
         </CurrentUserContext.Provider>
       </div>

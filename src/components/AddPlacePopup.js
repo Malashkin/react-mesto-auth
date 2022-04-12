@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
+const AddPlacePopup = ({ isOpen, onClose, onAddPlace, buttonText }) => {
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
 
@@ -59,7 +59,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
       />
       <span className="popup__span input-url-error"> </span>
       <button type="submit" className="popup__button">
-        Сохранить
+        {buttonText}
       </button>
     </PopupWithForm>
   );

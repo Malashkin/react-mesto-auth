@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-const DeletePopup = ({ isOpen, onClose, onSubmit }) => {
+const DeletePopup = ({ isOpen, onClose, onSubmit, buttonText }) => {
   return (
     <PopupWithForm
       name="delete"
@@ -11,7 +11,7 @@ const DeletePopup = ({ isOpen, onClose, onSubmit }) => {
       onSubmit={onSubmit}
     >
       <button type="submit" className="popup__button">
-        Да
+        {buttonText}
       </button>
     </PopupWithForm>
   );
