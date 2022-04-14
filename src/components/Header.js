@@ -1,11 +1,12 @@
 import React from "react";
 import mainLogo from "./../images/Vector.svg";
+import NavBar from "./NavBar";
 
 const Header = () => {
   return (
     <div className="header">
       <img className="header__logo" src={mainLogo} alt="Логотип" />
-      <nav className="header__navbar">Войти</nav>
+      <NavBar title="Выйти" user="xb-dx" />
     </div>
   );
 };

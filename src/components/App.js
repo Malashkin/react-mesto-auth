@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Route } from "react-router";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
@@ -9,6 +10,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import DeletePopup from "./DeletePopup";
+import SingForm from "./SingForm";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -155,42 +157,54 @@ function App() {
     <div className="body">
       <div className="page">
         <Header />
-        <CurrentUserContext.Provider value={currentUser}>
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handelAvatarClick}
-            onCardClick={handleClick}
-            onCardLike={handleLikeClick}
-            onDeleteClick={handelDeleteClick}
-            cards={cards}
+        <Route exact path="/">
+          <CurrentUserContext.Provider value={currentUser}>
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handelAvatarClick}
+              onCardClick={handleClick}
+              onCardLike={handleLikeClick}
+              onDeleteClick={handelDeleteClick}
+              cards={cards}
+            />
+            <EditProfilePopup
+              onUpdateUser={handleUpdateUser}
+              isOpen={isEditProfilePopupOpen}
+              onClose={closeAllPopups}
+              buttonText={editProfilePopupButtonText}
+            />
+            <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+            />
+            <AddPlacePopup
+              isOpen={isAddPlacePopupOpen}
+              onClose={closeAllPopups}
+              onAddPlace={handleAddPlaceSubmit}
+              buttonText={addPlacePopupButton}
+            />
+            <DeletePopup
+              isOpen={isDeletePopupOpen}
+              onClose={closeAllPopups}
+              onSubmit={handleCardDelete}
+              buttonText={deletePopupButtonText}
+            />
+          </CurrentUserContext.Provider>
+        </Route>
+        <Route path="/sign-up">
+          <SingForm
+            title="Регистрация"
+            buttonText="Зарегистрироваться"
+            spanText="Уже зарегистрированы? Войти"
           />
-          <Footer />
-          <EditProfilePopup
-            onUpdateUser={handleUpdateUser}
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            buttonText={editProfilePopupButtonText}
-          />
-          <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onAddPlace={handleAddPlaceSubmit}
-            buttonText={addPlacePopupButton}
-          />
-          <DeletePopup
-            isOpen={isDeletePopupOpen}
-            onClose={closeAllPopups}
-            onSubmit={handleCardDelete}
-            buttonText={deletePopupButtonText}
-          />
-        </CurrentUserContext.Provider>
+        </Route>
+        <Route path="/sign-in">
+          <SingForm title="Вход" buttonText="Войти" spanText="" />
+        </Route>
+        <Footer />
       </div>
     </div>
   );
