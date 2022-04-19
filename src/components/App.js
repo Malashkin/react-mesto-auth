@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch, Redirect, useRoutes } from "react-router";
+import { Route, Switch, useHistory } from "react-router";
 import ProtectedRoute from "./ProtectedRoute";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
+import auth from "../utils/auth";
 import CurrentUserContext from "./../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -34,6 +35,15 @@ function App() {
   const [editProfilePopupButtonText, setEditProfilePopupButtonText] =
     useState("Сохранить");
   const [addPlacePopupButton, setAddPlacePopupButton] = useState("Сохранить");
+  const [jwt, setJwt] = useState("");
+  const history = useHistory();
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      auth.checkToken(token);
+    }
+  });
 
   useEffect(() => {
     api
@@ -180,7 +190,7 @@ function App() {
     <div className="body">
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-          <Header />
+          <Header title="Выйти" user="xb-dx@yandex.ru" />
           <Switch>
             <Route
               path="/sign-up"

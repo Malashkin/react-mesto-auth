@@ -7,4 +7,11 @@
   color: #ffffff;
   margin: 0;
   padding: 0;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 700px) {
+  .navbar__title {
+    margin-right: 20px;
+  }
 }
