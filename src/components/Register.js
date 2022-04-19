@@ -47,10 +47,9 @@ const Register = ({
       <button className={buttonClassName} type="submit">
         {buttonText}
       </button>
-      <span className="singform__span">
-        <Link to="/sign-in">Уже зарегистрированы? Войти</Link>
-      </span>
-      ;
+      <Link className="singform__span" to="/sign-in">
+        Уже зарегистрированы? Войти
+      </Link>
     </form>
   );
 };
