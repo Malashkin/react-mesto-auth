@@ -8,7 +8,7 @@ function makeRequest(url, props) {
   );
 }
 
-function makeSingUp(email, password) {
+export function makeSingUp(email, password) {
   console.log(email, password);
   const url = baseUrl + "/singup";
   const headers = {
@@ -22,9 +22,9 @@ function makeSingUp(email, password) {
   return makeRequest(url, props);
 }
 
-function makeSingIn(email, password) {
+export function makeSingIn(email, password) {
   console.log(email, password);
-  const url = baseUrl + "/singup";
+  const url = baseUrl + "/singin";
   const headers = {
     "Content-Type": "application/json",
   };
@@ -32,6 +32,19 @@ function makeSingIn(email, password) {
     method: "POST",
     headers: headers,
     body: JSON.stringify({ email, password }),
+  };
+  return makeRequest(url, props);
+}
+
+export function checkToken(token) {
+  const url = baseUrl + "/users/me";
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const props = {
+    method: "GET",
+    headers: headers,
   };
   return makeRequest(url, props);
 }
