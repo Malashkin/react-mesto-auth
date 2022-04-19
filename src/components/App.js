@@ -18,7 +18,7 @@ import ErrorLogo from "../images/decl-icon.svg";
 import SuccessLogo from "../images/ok-icon.svg";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -182,10 +182,14 @@ function App() {
         <div className="page">
           <Header />
           <Switch>
-            <Route path="/sign-up">
+            <Route
+              path="/sign-up"
+              title="Регистрация"
+              buttonText="Зарегистрироваться"
+            >
               <Register onSubmit={handleSignup} />
             </Route>
-            <Route path="/sign-in">
+            <Route path="/sign-in" title="Вход" buttonText="Войти">
               <Login onSubmit={handleLogin} />
             </Route>
             <ProtectedRoute

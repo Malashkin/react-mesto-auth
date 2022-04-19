@@ -1,9 +1,12 @@
 import React from "react";
 
-const Register = () => {
+const Register = ({
+  titleText = "Регистрация",
+  buttonText = "Зарегистрироваться",
+}) => {
   return (
-    <div className="singform">
-      <h2 className="singform__title">Регистрация</h2>
+    <form className="singform">
+      <h2 className="singform__title">{titleText}</h2>
       <input
         className="singform__input"
         placeholder="Email"
@@ -15,10 +18,10 @@ const Register = () => {
         type="password"
       ></input>
       <button className="singform__button" type="submit">
-        Регистрация
+        {buttonText}
       </button>
       <span className="singform__span">Уже зарегистрированы? Войти</span>
-    </div>
+    </form>
   );
 };
 

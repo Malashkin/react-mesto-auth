@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-const Login = ({}) => {
+const Login = ({ titleText = "Вход", buttonText = "Войти" }) => {
   return (
-    <div className="singform">
-      <h2 className="singform__title">Вход</h2>
+    <form className="singform">
+      <h2 className="singform__title">{titleText}</h2>
       <input
         className="singform__input"
         placeholder="Email"
@@ -15,9 +15,9 @@ const Login = ({}) => {
         type="password"
       ></input>
       <button className="singform__button" type="submit">
-        Войти
+        {buttonText}
       </button>
-    </div>
+    </form>
   );
 };
 
