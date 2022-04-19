@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
-const SingForm = ({ title, buttonText, spanText }) => {
+const Login = ({}) => {
   return (
     <div className="singform">
-      <h2 className="singform__title">{title}</h2>
+      <h2 className="singform__title">Вход</h2>
       <input
         className="singform__input"
         placeholder="Email"
@@ -15,11 +15,10 @@ const SingForm = ({ title, buttonText, spanText }) => {
         type="password"
       ></input>
       <button className="singform__button" type="submit">
-        {buttonText}
+        Войти
       </button>
-      <span className="singform__span">{spanText}</span>
     </div>
   );
 };
 
-export default SingForm;
+export default Login;

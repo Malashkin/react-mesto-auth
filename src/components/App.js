@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Route } from "react-router";
+import { Route, Switch, Redirect, useRoutes } from "react-router";
+import ProtectedRoute from "./ProtectedRoute";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
@@ -10,13 +11,21 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import DeletePopup from "./DeletePopup";
-import SingForm from "./SingForm";
+import Register from "./Register";
+import Login from "./Login";
+import InfoTooltip from "./InfoTooltip";
+import ErrorLogo from "../images/decl-icon.svg";
+import SuccessLogo from "../images/ok-icon.svg";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(true);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [isNoticeSuccessPopupOpen, setIsNoticeSuccessPopupOpen] =
+    useState(false);
+  const [isNoticeErrorPopupOpen, setIsNoticeErrorPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -59,11 +68,21 @@ function App() {
     setDeletingCard(card);
   }
 
+  function openPopupNoticeSuccess() {
+    setIsNoticeSuccessPopupOpen(true);
+  }
+
+  function openPopupNoticeError() {
+    setIsNoticeErrorPopupOpen(true);
+  }
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsDeletePopupOpen(false);
+    setIsNoticeSuccessPopupOpen(false);
+    setIsNoticeErrorPopupOpen(false);
     setSelectedCard(null);
     setDeletingCard(null);
   }
@@ -153,13 +172,26 @@ function App() {
       });
   };
 
+  function handleLogin() {}
+
+  function handleSignup() {}
+
   return (
     <div className="body">
-      <div className="page">
-        <Header />
-        <Route exact path="/">
-          <CurrentUserContext.Provider value={currentUser}>
-            <Main
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className="page">
+          <Header />
+          <Switch>
+            <Route path="/sign-up">
+              <Register onSubmit={handleSignup} />
+            </Route>
+            <Route path="/sign-in">
+              <Login onSubmit={handleLogin} />
+            </Route>
+            <ProtectedRoute
+              path="/"
+              loggedIn={loggedIn}
+              component={Main}
               onEditProfile={handleEditProfileClick}
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handelAvatarClick}
@@ -167,45 +199,47 @@ function App() {
               onCardLike={handleLikeClick}
               onDeleteClick={handelDeleteClick}
               cards={cards}
-            />
-            <EditProfilePopup
-              onUpdateUser={handleUpdateUser}
-              isOpen={isEditProfilePopupOpen}
-              onClose={closeAllPopups}
-              buttonText={editProfilePopupButtonText}
-            />
-            <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-            />
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddPlace={handleAddPlaceSubmit}
-              buttonText={addPlacePopupButton}
-            />
-            <DeletePopup
-              isOpen={isDeletePopupOpen}
-              onClose={closeAllPopups}
-              onSubmit={handleCardDelete}
-              buttonText={deletePopupButtonText}
-            />
-          </CurrentUserContext.Provider>
-        </Route>
-        <Route path="/sign-up">
-          <SingForm
-            title="Регистрация"
-            buttonText="Зарегистрироваться"
-            spanText="Уже зарегистрированы? Войти"
+            ></ProtectedRoute>
+          </Switch>
+          <Footer />
+          <EditProfilePopup
+            onUpdateUser={handleUpdateUser}
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            buttonText={editProfilePopupButtonText}
           />
-        </Route>
-        <Route path="/sign-in">
-          <SingForm title="Вход" buttonText="Войти" spanText="" />
-        </Route>
-        <Footer />
-      </div>
+          <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlace={handleAddPlaceSubmit}
+            buttonText={addPlacePopupButton}
+          />
+          <DeletePopup
+            isOpen={isDeletePopupOpen}
+            onClose={closeAllPopups}
+            onSubmit={handleCardDelete}
+            buttonText={deletePopupButtonText}
+          />
+          <InfoTooltip
+            popupIconImg={SuccessLogo}
+            popupText="Вы успешно зарегистрировались!"
+            onClose={closeAllPopups}
+            isOpen={isNoticeSuccessPopupOpen}
+          />
+          <InfoTooltip
+            popupIconImg={ErrorLogo}
+            popupText="Что-то пошло не так! Попробуйте ещё раз."
+            onClose={closeAllPopups}
+            isOpen={isNoticeErrorPopupOpen}
+          />
+        </div>
+      </CurrentUserContext.Provider>
     </div>
   );
 }
