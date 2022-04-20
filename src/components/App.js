@@ -29,7 +29,7 @@ function App() {
   const [isNoticeErrorPopupOpen, setIsNoticeErrorPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
-  const [user, setUser] = useState("");
+  const [userLogin, setUserLogin] = useState("");
   const [cards, setCards] = useState([]);
   const [deletingCard, setDeletingCard] = useState(null);
   const [deletePopupButtonText, setDeletePopupButtonText] = useState("Да");
@@ -46,7 +46,7 @@ function App() {
         if (res && res.data) {
           setJwt(token);
           setLoggedIn(true);
-          setUser(res.data.email);
+          setUserLogin(res.data.email);
           history.push("/");
         }
       })
@@ -212,7 +212,7 @@ function App() {
           setJwt(res.token);
           localStorage.setItem("jwt", res.token);
           setLoggedIn(true);
-          setUser(email);
+          setUserLogin(email);
           history.push("/");
         }
       })
@@ -225,14 +225,14 @@ function App() {
   function makeSignOut() {
     localStorage.removeItem("jwt");
     history.push("/sign-up");
-    setUser("");
+    setUserLogin("");
   }
 
   return (
     <div className="body">
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-          <Header signOut={makeSignOut} user={user} />
+          <Header signOut={makeSignOut} user={userLogin} />
           <Switch>
             <Route
               path="/sign-up"
