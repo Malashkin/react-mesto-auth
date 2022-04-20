@@ -189,21 +189,6 @@ function App() {
       });
   };
 
-  function handleSignup(email, password) {
-    auth
-      .makeSignup(email, password)
-      .then((res) => {
-        if (res.data && res.data._id) {
-          history.push("/sign-in");
-          setIsNoticeSuccessPopupOpen(true);
-        }
-      })
-      .catch((error) => {
-        setIsNoticeErrorPopupOpen(true);
-        console.log(error);
-      });
-  }
-
   function handleLogin(email, password) {
     auth
       .makeLogin(email, password)
@@ -214,6 +199,21 @@ function App() {
           setLoggedIn(true);
           setUserLogin(email);
           history.push("/");
+        }
+      })
+      .catch((error) => {
+        setIsNoticeErrorPopupOpen(true);
+        console.log(error);
+      });
+  }
+
+  function handleSignup(email, password) {
+    auth
+      .makeSignup(email, password)
+      .then((res) => {
+        if (res.data && res.data._id) {
+          history.push("/sign-in");
+          setIsNoticeSuccessPopupOpen(true);
         }
       })
       .catch((error) => {
