@@ -1,8 +1,8 @@
 React Mesto Auth
 
 - **Описание** 
-- Ранее проект был выполнен на JavaScript. Ссылка на проект https://malashkin.github.io/mesto/
-- Проект перенесен в React. Ссылка на проект https://malashkin.github.io/mesto-react/
+- Этот же проект на JavaScript. Ссылка на проект https://malashkin.github.io/mesto/
+- Из JavaScript проект перенесен в React. Ссылка на проект https://malashkin.github.io/mesto-react/
 - **В этой версии проекта реализовано:**
 1) Работа с 2 API - один отвечает за авторизацию пользователей, другой за наполнение сайта. 
 2) Структура проекта разделена на компоненты для удобства дальнейшего масштабирования.
