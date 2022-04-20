@@ -38,7 +38,6 @@ function App() {
   const [addPlacePopupButton, setAddPlacePopupButton] = useState("Сохранить");
   const [jwt, setJwt] = useState("");
   const history = useHistory();
-  console.log(jwt);
 
   function checkToken(token) {
     auth
@@ -233,7 +232,7 @@ function App() {
     <div className="body">
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-          <Header signOut={makeSignOut} users={user} />
+          <Header signOut={makeSignOut} user={user} />
           <Switch>
             <Route
               path="/sign-up"

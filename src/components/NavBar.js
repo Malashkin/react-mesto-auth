@@ -8,12 +8,12 @@ const NavBar = ({ user, signOut }) => {
         {user}
       </p>
       {user ? (
-        <button className="navbar__title" onClick={signOut}>
+        <button className="navbar__button" onClick={signOut}>
           Выйти
         </button>
       ) : (
         <NavLink
-          className="navbar__title"
+          className="navbar__button"
           activeClassName="navbar__button_active"
           to="/sign-in"
         >
