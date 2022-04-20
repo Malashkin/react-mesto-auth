@@ -29,6 +29,7 @@ function App() {
   const [isNoticeErrorPopupOpen, setIsNoticeErrorPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
+  const [user, setUser] = useState("");
   const [cards, setCards] = useState([]);
   const [deletingCard, setDeletingCard] = useState(null);
   const [deletePopupButtonText, setDeletePopupButtonText] = useState("Да");
@@ -37,11 +38,26 @@ function App() {
   const [addPlacePopupButton, setAddPlacePopupButton] = useState("Сохранить");
   const [jwt, setJwt] = useState("");
   const history = useHistory();
+  console.log(jwt);
+
+  function checkToken(token) {
+    auth
+      .checkToken(token)
+      .then((res) => {
+        if (res && res.data) {
+          setJwt(token);
+          setLoggedIn(true);
+          setUser(res.data.email);
+          history.push("/");
+        }
+      })
+      .catch((error) => console.log(error));
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      auth.checkToken(token);
+      checkToken(token);
     }
   });
 
@@ -76,14 +92,6 @@ function App() {
   function handelDeleteClick(card) {
     setIsDeletePopupOpen(true);
     setDeletingCard(card);
-  }
-
-  function openPopupNoticeSuccess() {
-    setIsNoticeSuccessPopupOpen(true);
-  }
-
-  function openPopupNoticeError() {
-    setIsNoticeErrorPopupOpen(true);
   }
 
   function closeAllPopups() {
@@ -182,15 +190,50 @@ function App() {
       });
   };
 
-  function handleLogin() {}
+  function handleSignup(email, password) {
+    auth
+      .makeSignup(email, password)
+      .then((res) => {
+        if (res.data && res.data._id) {
+          history.push("/sign-in");
+          setIsNoticeSuccessPopupOpen(true);
+        }
+      })
+      .catch((error) => {
+        setIsNoticeErrorPopupOpen(true);
+        console.log(error);
+      });
+  }
 
-  function handleSignup() {}
+  function handleLogin(email, password) {
+    auth
+      .makeLogin(email, password)
+      .then((res) => {
+        if (res && res.token) {
+          setJwt(res.token);
+          localStorage.setItem("jwt", res.token);
+          setLoggedIn(true);
+          setUser(email);
+          history.push("/");
+        }
+      })
+      .catch((error) => {
+        setIsNoticeErrorPopupOpen(true);
+        console.log(error);
+      });
+  }
+
+  function makeSignOut() {
+    localStorage.removeItem("jwt");
+    history.push("/sign-up");
+    setUser("");
+  }
 
   return (
     <div className="body">
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-          <Header title="Выйти" user="xb-dx@yandex.ru" />
+          <Header signOut={makeSignOut} users={user} />
           <Switch>
             <Route
               path="/sign-up"

@@ -11,30 +11,29 @@ class Auth {
     return Promise.reject(`Что-то пошло не так: ${res.status}`);
   }
 
-  makeSingUp(data) {
-    console.log(data);
-    return fetch(`${this._baseUrl}/singup`, {
-      method: "POST",
-      headers: this._headers,
-      body: JSON.stringify(data),
-    }).then(this._checkResult);
-  }
-
-  makeSingIn(data) {
-    console.log(data);
-    return fetch(`${this._baseUrl}/singin`, {
-      method: "POST",
-      headers: this._headers,
-      body: JSON.stringify(data),
-    }).then(this._checkResult);
-  }
-
   checkToken(token) {
-    console.log(token);
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
-      header: this._headers,
-      Authorization: `Bearer ${token}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(this._checkResult);
+  }
+
+  makeSignup(email, password) {
+    return fetch(`${this._baseUrl}/signup`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({ email, password }),
+    }).then(this._checkResult);
+  }
+
+  makeLogin(email, password) {
+    return fetch(`${this._baseUrl}/signin`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({ email, password }),
     }).then(this._checkResult);
   }
 }

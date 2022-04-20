@@ -1,15 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const NavBar = ({ title, user }) => {
+const NavBar = ({ user, signOut }) => {
   return (
     <div className="navbar">
       <p className className="navbar__user">
         {user}
       </p>
-      <Link to="/sign-in" className="navbar__title">
-        {title}
-      </Link>
+      {user ? (
+        <button className="navbar__title" onClick={signOut}>
+          Выйти
+        </button>
+      ) : (
+        <NavLink
+          className="navbar__title"
+          activeClassName="navbar__button_active"
+          to="/sign-in"
+        >
+          Войти
+        </NavLink>
+      )}
     </div>
   );
 };
