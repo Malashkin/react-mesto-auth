@@ -15,52 +15,50 @@ const Main = ({
 
   return (
     <React.Fragment>
-      <main className="content">
-        <section className="profile">
-          <div className="profile__card">
-            <button
-              onClick={onEditAvatar}
-              className="profile__avatar"
-              type="button"
-            >
-              {currentUser.avatar && (
-                <img
-                  className="profile__image"
-                  src={currentUser.avatar}
-                  alt="Аватар"
-                />
-              )}
-            </button>
-            <div className="profile__info">
-              <h1 className="profile__name">{currentUser.name}</h1>
-              <button
-                onClick={onEditProfile}
-                className="profile__button"
-                type="button"
-              ></button>
-              <p className="profile__spec">{currentUser.about}</p>
-            </div>
-          </div>
+      <section className="profile">
+        <div className="profile__card">
           <button
-            onClick={onAddPlace}
-            className="profile__add"
+            onClick={onEditAvatar}
+            className="profile__avatar"
             type="button"
-          ></button>
-        </section>
-        <section className="cards">
-          <CurrentUserContext.Provider value={currentUser}>
-            {cards.map((card) => (
-              <Card
-                card={card}
-                onCardClick={onCardClick}
-                onCardLike={onCardLike}
-                onDeleteClick={onDeleteClick}
-                key={card._id}
+          >
+            {currentUser.avatar && (
+              <img
+                className="profile__image"
+                src={currentUser.avatar}
+                alt="Аватар"
               />
-            ))}
-          </CurrentUserContext.Provider>
-        </section>
-      </main>
+            )}
+          </button>
+          <div className="profile__info">
+            <h1 className="profile__name">{currentUser.name}</h1>
+            <button
+              onClick={onEditProfile}
+              className="profile__button"
+              type="button"
+            ></button>
+            <p className="profile__spec">{currentUser.about}</p>
+          </div>
+        </div>
+        <button
+          onClick={onAddPlace}
+          className="profile__add"
+          type="button"
+        ></button>
+      </section>
+      <section className="cards">
+        <CurrentUserContext.Provider value={currentUser}>
+          {cards.map((card) => (
+            <Card
+              card={card}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onDeleteClick={onDeleteClick}
+              key={card._id}
+            />
+          ))}
+        </CurrentUserContext.Provider>
+      </section>
     </React.Fragment>
   );
 };

@@ -2,8 +2,15 @@
 
 # dependencies
 /node_modules
+<<<<<<< HEAD
 /.pnp
 .pnp.js
+=======
+/.vscode
+/.pnp
+.pnp.js
+.workspace.code-workspace
+>>>>>>> main
 
 # testing
 /coverage

@@ -35,6 +35,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, buttonText }) => {
       onSubmit={handelSubmit}
       name="popup_edit"
       title="Редактировать профиль"
+      buttonText={buttonText}
     >
       <input
         id="input-name"
@@ -62,9 +63,6 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, buttonText }) => {
         onChange={handelChangeDescription}
       />
       <span className="popup__span input-job-error"></span>
-      <button type="submit" className="popup__button">
-        {buttonText}
-      </button>
     </PopupWithForm>
   );
 };

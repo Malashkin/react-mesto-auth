@@ -33,6 +33,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, buttonText }) => {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      buttonText={buttonText}
     >
       <input
         id="input-title"
@@ -57,10 +58,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, buttonText }) => {
         value={link || ""}
         required
       />
-      <span className="popup__span input-url-error"> </span>
-      <button type="submit" className="popup__button">
-        {buttonText}
-      </button>
+      <span className="popup__span input-url-error"></span>
     </PopupWithForm>
   );
 };
