@@ -36,7 +36,8 @@ function App() {
   const [editProfilePopupButtonText, setEditProfilePopupButtonText] =
     useState("Сохранить");
   const [addPlacePopupButton, setAddPlacePopupButton] = useState("Сохранить");
-  const [jwt, setJwt] = useState("");
+  const [editAvatarPopupButton, setEditAvatarPopupButton] =
+    useState("Сохранить");
   const history = useHistory();
 
   function checkToken(token) {
@@ -44,7 +45,6 @@ function App() {
       .checkToken(token)
       .then((res) => {
         if (res && res.data) {
-          setJwt(token);
           setLoggedIn(true);
           setUserLogin(res.data.email);
           history.push("/");
@@ -61,21 +61,23 @@ function App() {
   });
 
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((res) => {
-        setCurrentUser({ ...res });
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-    api
-      .getCardList()
-      .then((res) => setCards(res))
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);
+    if (loggedIn) {
+      api
+        .getUserInfo()
+        .then((res) => {
+          setCurrentUser({ ...res });
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+      api
+        .getCardList()
+        .then((res) => setCards(res))
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+  }, [loggedIn]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -139,11 +141,13 @@ function App() {
       .setUserInfo(user)
       .then((res) => {
         setCurrentUser(res);
-        setEditProfilePopupButtonText("Сохранить");
         closeAllPopups();
       })
       .catch((err) => {
         console.log(`Ошибка ${err}`);
+      })
+      .finally(() => {
+        setEditProfilePopupButtonText("Сохранить");
       });
   };
 
@@ -155,15 +159,18 @@ function App() {
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== deletingCard._id));
         setDeletingCard(null);
-        setDeletePopupButtonText("Да");
         closeAllPopups();
       })
       .catch((err) => {
         console.log(`Ошибка ${err}`);
+      })
+      .finally(() => {
+        setDeletePopupButtonText("Да");
       });
   }
 
   const handleUpdateAvatar = (userAvatar) => {
+    setEditAvatarPopupButton("Сохранение...");
     api
       .editAvatar(userAvatar.avatar)
       .then((newAvatar) => {
@@ -172,6 +179,9 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка ${err}`);
+      })
+      .finally(() => {
+        setEditAvatarPopupButton("Сохранить");
       });
   };
 
@@ -181,11 +191,13 @@ function App() {
       .createCard(card)
       .then((newCard) => {
         setCards([newCard, ...cards]);
-        setAddPlacePopupButton("Сохранить");
         closeAllPopups();
       })
       .catch((err) => {
         console.log(`Ошибка ${err}`);
+      })
+      .finally(() => {
+        setAddPlacePopupButton("Сохранить");
       });
   };
 
@@ -194,7 +206,6 @@ function App() {
       .makeLogin(email, password)
       .then((res) => {
         if (res && res.token) {
-          setJwt(res.token);
           localStorage.setItem("jwt", res.token);
           setLoggedIn(true);
           setUserLogin(email);
@@ -268,6 +279,7 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          buttonText={editAvatarPopupButton}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}

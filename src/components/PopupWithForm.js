@@ -7,6 +7,7 @@ const PopupWithForm = ({
   title,
   children,
   onSubmit,
+  buttonText,
 }) => {
   useEffect(() => {
     const handleEscClose = (e) => {
@@ -41,6 +42,9 @@ const PopupWithForm = ({
         >
           <h2 className="popup__title">{title}</h2>
           {children}
+          <button type="submit" className="popup__button">
+            {buttonText}
+          </button>
         </form>
       </div>
       <div onClick={onClose} className="popup__overlay" />
