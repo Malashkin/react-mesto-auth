@@ -21,7 +21,7 @@ const Login = ({ titleText = "Вход", buttonText = "Войти", onSubmit }) 
   };
 
   return (
-    <form className="singform" onSubmit={handelSubmit} noValidate>
+    <form className="singform" onSubmit={handelSubmit}>
       <h2 className="singform__title">{titleText}</h2>
       <input
         className="singform__input"

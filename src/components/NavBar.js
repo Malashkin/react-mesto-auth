@@ -1,5 +1,6 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Switch, Route } from "react-router";
+import { Link } from "react-router-dom";
 
 const NavBar = ({ user, signOut }) => {
   return (
@@ -12,13 +13,18 @@ const NavBar = ({ user, signOut }) => {
           Выйти
         </button>
       ) : (
-        <NavLink
-          className="navbar__button"
-          activeClassName="navbar__button_active"
-          to="/sign-in"
-        >
-          Войти
-        </NavLink>
+        <Switch>
+          <Route path="/sign-up">
+            <Link className="navbar__button" to="/sign-in">
+              Войти
+            </Link>
+          </Route>
+          <Route path="/sign-in">
+            <Link className="navbar__button" to="/sign-up">
+              Регистрация
+            </Link>
+          </Route>
+        </Switch>
       )}
     </div>
   );
