@@ -1,23 +1,4 @@
 .footer__copyright {
-<<<<<<< HEAD
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 22px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #545454;
-    margin: 0;
-    padding: 0;
-}
-
-@media screen and (max-width: 700px) {
-    .footer__copyright {
-        font-size: 14px;
-        line-height: 17px;
-    }
-}
-=======
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -35,4 +16,3 @@
     line-height: 17px;
   }
 }
->>>>>>> main
