@@ -61,21 +61,23 @@ function App() {
   });
 
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((res) => {
-        setCurrentUser({ ...res });
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-    api
-      .getCardList()
-      .then((res) => setCards(res))
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);
+    if (loggedIn) {
+      api
+        .getUserInfo()
+        .then((res) => {
+          setCurrentUser({ ...res });
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+      api
+        .getCardList()
+        .then((res) => setCards(res))
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+  }, [loggedIn]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);

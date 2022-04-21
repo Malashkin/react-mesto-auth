@@ -23,6 +23,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, buttonText }) => {
       title="Обновить аватар"
       onClose={onClose}
       onSubmit={handleSubmit}
+      buttonText={buttonText}
     >
       <input
         id="input-avatar"
@@ -34,9 +35,6 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, buttonText }) => {
         required
       />
       <span className="popup__span input-avatar-error"> </span>
-      <button type="submit" className="popup__button">
-        {buttonText}
-      </button>
     </PopupWithForm>
   );
 };

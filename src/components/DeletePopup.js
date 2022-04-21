@@ -9,11 +9,8 @@ const DeletePopup = ({ isOpen, onClose, onSubmit, buttonText }) => {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={onSubmit}
-    >
-      <button type="submit" className="popup__button">
-        {buttonText}
-      </button>
-    </PopupWithForm>
+      buttonText={buttonText}
+    ></PopupWithForm>
   );
 };
 
