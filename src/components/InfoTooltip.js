@@ -1,12 +1,25 @@
 import React from "react";
-import PopupWithForm from "./PopupWithForm";
 
 const InfoTooltip = ({ popupText, popupIconImg, onClose, isOpen }) => {
   return (
-    <PopupWithForm isOpen={isOpen} onClose={onClose}>
-      <img className="popup__icon" src={popupIconImg} alt="Статус запроса:" />
-      <p className="popup__text">{popupText}</p>
-    </PopupWithForm>
+    <div className={`popup ${isOpen && "popup_type_opened"}`}>
+      <div className="popup__content">
+        <button
+          onClick={onClose}
+          className="popup__close"
+          type="button"
+        ></button>
+        <div className="popup__form">
+          <img
+            className="popup__icon"
+            src={popupIconImg}
+            alt="Статус запроса:"
+          />
+          <p className="popup__text">{popupText}</p>
+        </div>
+      </div>
+      <div onClick={onClose} className="popup__overlay" />
+    </div>
   );
 };
 
