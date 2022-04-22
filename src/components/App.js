@@ -40,25 +40,21 @@ function App() {
     useState("Сохранить");
   const history = useHistory();
 
-  function checkToken(token) {
-    auth
-      .checkToken(token)
-      .then((res) => {
-        if (res && res.data) {
-          setLoggedIn(true);
-          setUserLogin(res.data.email);
-          history.push("/");
-        }
-      })
-      .catch((error) => console.log(error));
-  }
-
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      checkToken(token);
+      auth
+        .checkToken(token)
+        .then((res) => {
+          if (res && res.data) {
+            setLoggedIn(true);
+            setUserLogin(res.data.email);
+            history.push("/");
+          }
+        })
+        .catch((error) => console.log(error));
     }
-  });
+  }, [history]);
 
   useEffect(() => {
     if (loggedIn) {
