@@ -9,9 +9,11 @@ const NavBar = ({ user, signOut }) => {
         {user}
       </p>
       {user ? (
-        <button className="navbar__button" onClick={signOut}>
-          Выйти
-        </button>
+        <Route path="/">
+          <button className="navbar__button" onClick={signOut}>
+            Выйти
+          </button>
+        </Route>
       ) : (
         <Switch>
           <Route path="/sign-up">
