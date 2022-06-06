@@ -4,10 +4,9 @@
 @import url(./blocks/body/body.css);
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
-@import url(./blocks/navbar/navbar.css);
 @import url(./blocks/navbar/__user/navbar__user.css);
-@import url(./blocks/navbar/__button/navbar__button.css);
-@import url(./blocks/navbar/__button/_active/navbar__button_active.css);
+@import url(./blocks/navbar/__link/navbar__link.css);
+@import url(./blocks/navbar/__link/_active/navbar__link_active.css);
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__avatar/profile__avatar.css);
 @import url(./blocks/profile/__card/profile__card.css);
@@ -56,4 +55,8 @@
 @import url(./blocks/singform/__submit/signform__submit.css);
 @import url(./blocks/singform/__submit/_disabled/signform__submit_disabled.css);
 @import url(./blocks/singform/__span/singform__span.css);
-@import url(./blocks/singform/__input/singform__input.css); ;
+@import url(./blocks/singform/__input/singform__input.css);
+@import url(./blocks/navbar/_type/_desktop/navbar_type_desktop.css);
+@import url(./blocks/navbar/_type/_mobile/navbar_type_mobile.css);
+@import url(./blocks/navbar/__burger/navbar__burger.css);
+@import url(./blocks/navbar/__burger/_menu/navbar__burger_menu.css);

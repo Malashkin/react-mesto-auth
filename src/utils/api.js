@@ -74,7 +74,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort36/",
+  baseUrl: "https://api.malashkin.nomoredomains.xyz",
   headers: {
     authorization: "b63003c8-9150-4e29-8d9a-6e331bb26d1d",
     "Content-Type": "application/json",
