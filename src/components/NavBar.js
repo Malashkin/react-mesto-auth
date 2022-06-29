@@ -17,15 +17,15 @@ const NavBar = ({ user, signOut }) => {
           </Switch>
         ) : (
           <Switch>
+            <Route path="/sign-in">
+              <Link className="navbar__link" to="/sign-up">
+                Регистрация
+              </Link>
             <Route path="/sign-up">
               <Link className="navbar__link" to="/sign-in">
                 Войти
               </Link>
             </Route>
-            <Route path="/sign-in">
-              <Link className="navbar__link" to="/sign-up">
-                Регистрация
-              </Link>
             </Route>
           </Switch>
         )}

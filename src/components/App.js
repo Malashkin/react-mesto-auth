@@ -6,7 +6,7 @@ import Header from "./Header";
 import Main from "./Main";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
-import auth from "../utils/auth";
+import * as Auth from "../utils/Auth";
 import CurrentUserContext from "./../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -39,41 +39,30 @@ function App() {
   const [editAvatarPopupButton, setEditAvatarPopupButton] =
     useState("Сохранить");
   const history = useHistory();
+  const [token, setToken] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      auth
-        .checkToken(token)
-        .then((res) => {
-          if (res && res.data) {
+    function tokenCheck() {
+      if (localStorage.getItem("token")) {
+        const token = localStorage.getItem("token");
+        if (token) {
+          Promise.all([
+            Auth.checkToken(token),
+            api.getUserInfo(token),
+            api.getCardList(token),
+          ]).then(([userData, user, cards]) => {
+            setUserLogin(userData.email);
             setLoggedIn(true);
-            setUserLogin(res.data.email);
+            setToken(localStorage.getItem("token"));
             history.push("/");
-          }
-        })
-        .catch((error) => console.log(error));
+            setCurrentUser(user);
+            setCards(cards.data.reverse());
+          });
+        }
+      }
     }
-  }, [history]);
-
-  useEffect(() => {
-    if (loggedIn) {
-      api
-        .getUserInfo()
-        .then((res) => {
-          setCurrentUser({ ...res });
-        })
-        .catch((err) => {
-          console.log(`Ошибка: ${err}`);
-        });
-      api
-        .getCardList()
-        .then((res) => setCards(res))
-        .catch((err) => {
-          console.log(`Ошибка: ${err}`);
-        });
-    }
-  }, [loggedIn]);
+    tokenCheck();
+  }, [history, token]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -197,31 +186,28 @@ function App() {
       });
   };
 
-  function handleLogin(email, password) {
-    auth
-      .makeLogin(email, password)
+  function makeLogin(email, password) {
+    Auth.authorize(email, password)
       .then((res) => {
-        if (res && res.token) {
-          localStorage.setItem("jwt", res.token);
+        if (res.token) {
+          localStorage.setItem("token", res.token);
           setLoggedIn(true);
           setUserLogin(email);
+          setToken(localStorage.getItem("token"));
           history.push("/");
+        } else {
+          setIsNoticeErrorPopupOpen(true);
         }
       })
-      .catch((error) => {
-        setIsNoticeErrorPopupOpen(true);
-        console.log(error);
-      });
+      .catch((err) => console.log(err));
   }
 
-  function handleSignup(email, password) {
-    auth
-      .makeSignup(email, password)
-      .then((res) => {
-        if (res.data && res.data._id) {
-          history.push("/sign-in");
-          setIsNoticeSuccessPopupOpen(true);
-        }
+  function makeSignUp(email, password) {
+    Auth.register(email, password)
+      .then(() => {
+        console.log(email, password);
+        history.push("/sign-in");
+        setIsNoticeSuccessPopupOpen(true);
       })
       .catch((error) => {
         setIsNoticeErrorPopupOpen(true);
@@ -240,15 +226,15 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
         <Header signOut={makeSignOut} user={userLogin} />
         <Switch>
+          <Route path="/sign-in" title="Вход" buttonText="Войти">
+            <Login onSubmit={makeLogin} />
+          </Route>
           <Route
             path="/sign-up"
             title="Регистрация"
             buttonText="Зарегистрироваться"
           >
-            <Register onSubmit={handleSignup} />
-          </Route>
-          <Route path="/sign-in" title="Вход" buttonText="Войти">
-            <Login onSubmit={handleLogin} />
+            <Register onSubmit={makeSignUp} />
           </Route>
           <ProtectedRoute
             path="/"

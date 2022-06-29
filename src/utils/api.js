@@ -1,7 +1,7 @@
 class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
+    this._contentType = options.headers["Content-Type"];
   }
 
   _checkResult(res) {
@@ -11,73 +11,112 @@ class Api {
     return Promise.reject(`Что-то пошло не так: ${res.status}`);
   }
 
-  getCardList() {
+  getCardList(token) {
     return fetch(`${this._baseUrl}cards/`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }).then(this._checkResult);
   }
 
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(`${this._baseUrl}users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }).then(this._checkResult);
   }
 
-  setUserInfo(data) {
-    return fetch(`${this._baseUrl}users/me`, {
+  setUserInfo(name, info, token) {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": this._contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ name, about: info }),
     }).then(this._checkResult);
   }
 
-  createCard(data) {
-    return fetch(`${this._baseUrl}cards/`, {
+  createCard(name, link, token) {
+    return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: this._headers,
-      body: JSON.stringify(data),
-    }).then(this._checkResult);
-  }
-
-  deleteCard(cardId) {
-    return fetch(`${this._baseUrl}cards/${cardId}`, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then(this._checkResult);
-  }
-
-  deleteCardLike(cardId) {
-    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then(this._checkResult);
-  }
-
-  changeLikeCardStatus(cardId) {
-    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
-      method: "PUT",
-      headers: this._headers,
-    }).then(this._checkResult);
-  }
-
-  editAvatar(newAvatar) {
-    return fetch(`${this._baseUrl}users/me/avatar`, {
-      method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "Content-Type": this._contentType,
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-        avatar: newAvatar,
+        name,
+        link,
       }),
     }).then(this._checkResult);
+  }
+
+  deleteCard(cardId, token) {
+    return fetch(`${this._baseUrl}cards/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(this._checkResult);
+  }
+
+  putCardLike(cardId, token) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": this._contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(this._checkResponse)
+      .catch((err) => this._errorHandler(err));
+  }
+
+  deleteCardLike(cardId, token) {
+    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(this._checkResult);
+  }
+
+  changeLikeCardStatus(cardId, token) {
+    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": this._contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(this._checkResult);
+  }
+
+  editAvatar(data, token) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": this._contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        avatar: data,
+      }),
+    })
+      .then(this._checkResponse)
+      .catch((err) => this._errorHandler(err));
   }
 }
 
 const api = new Api({
-  baseUrl: "https://api.malashkin.nomoredomains.xyz",
+  baseUrl: "http://localhost:3001/",
   headers: {
-    authorization: "b63003c8-9150-4e29-8d9a-6e331bb26d1d",
     "Content-Type": "application/json",
+    Accept: `application/json`,
   },
 });
 
