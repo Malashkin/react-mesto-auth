@@ -164,9 +164,9 @@ function App() {
     setEditAvatarPopupButton("Сохранение...");
     api
       .editAvatar(avatar, token)
-      .then((res) => {
-        console.log(res.data);
-        setCurrentUser(res.data);
+      .then((data) => {
+        console.log(data);
+        setCurrentUser({ data });
         closeAllPopups();
       })
       .catch((err) => {
