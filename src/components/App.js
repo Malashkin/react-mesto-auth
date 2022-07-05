@@ -64,128 +64,6 @@ function App() {
     tokenCheck();
   }, [history, token]);
 
-  function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(true);
-  }
-
-  function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(true);
-  }
-
-  function handelAvatarClick() {
-    setIsEditAvatarPopupOpen(true);
-  }
-  function handelDeleteClick(card) {
-    setIsDeletePopupOpen(true);
-    setDeletingCard(card);
-  }
-
-  function closeAllPopups() {
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-    setIsDeletePopupOpen(false);
-    setIsNoticeSuccessPopupOpen(false);
-    setIsNoticeErrorPopupOpen(false);
-    setSelectedCard(null);
-    setDeletingCard(null);
-  }
-
-  function handleClick(card) {
-    setSelectedCard(card);
-  }
-
-  const handleLikeClick = (card) => {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    !isLiked
-      ? api
-          .changeLikeCardStatus(card._id)
-          .then((newCard) => {
-            setCards((state) =>
-              state.map((c) => (c._id === card._id ? newCard : c))
-            );
-          })
-          .catch((err) => {
-            console.log(`Ошибка ${err}`);
-          })
-      : api
-          .deleteCardLike(card._id)
-          .then((newCard) => {
-            setCards((state) =>
-              state.map((c) => (c._id === card._id ? newCard : c))
-            );
-          })
-          .catch((err) => {
-            console.log(`Ошибка ${err}`);
-          });
-  };
-
-  const handleUpdateUser = (user) => {
-    setEditProfilePopupButtonText("Сохранение...");
-    api
-      .setUserInfo(user)
-      .then((res) => {
-        setCurrentUser(res);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(`Ошибка ${err}`);
-      })
-      .finally(() => {
-        setEditProfilePopupButtonText("Сохранить");
-      });
-  };
-
-  function handleCardDelete(e) {
-    e.preventDefault();
-    setDeletePopupButtonText("Удаление...");
-    api
-      .deleteCard(deletingCard._id)
-      .then(() => {
-        setCards((state) => state.filter((c) => c._id !== deletingCard._id));
-        setDeletingCard(null);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(`Ошибка ${err}`);
-      })
-      .finally(() => {
-        setDeletePopupButtonText("Да");
-      });
-  }
-
-  const handleUpdateAvatar = (userAvatar) => {
-    setEditAvatarPopupButton("Сохранение...");
-    api
-      .editAvatar(userAvatar.avatar)
-      .then((newAvatar) => {
-        setCurrentUser(newAvatar);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(`Ошибка ${err}`);
-      })
-      .finally(() => {
-        setEditAvatarPopupButton("Сохранить");
-      });
-  };
-
-  const handleAddPlaceSubmit = (card) => {
-    setAddPlacePopupButton("Сохранение...");
-    api
-      .createCard(card)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(`Ошибка ${err}`);
-      })
-      .finally(() => {
-        setAddPlacePopupButton("Сохранить");
-      });
-  };
-
   function makeLogin(email, password) {
     Auth.authorize(email, password)
       .then((res) => {
@@ -219,6 +97,118 @@ function App() {
     localStorage.removeItem("jwt");
     history.push("/sign-up");
     setUserLogin("");
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
+
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
+  function handelAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+  }
+  function handelDeleteClick(card) {
+    setIsDeletePopupOpen(true);
+    setDeletingCard(card);
+  }
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsDeletePopupOpen(false);
+    setIsNoticeSuccessPopupOpen(false);
+    setIsNoticeErrorPopupOpen(false);
+    setSelectedCard(null);
+    setDeletingCard(null);
+  }
+
+  function handleClick(card) {
+    setSelectedCard(card);
+  }
+
+  function handleLikeClick(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    api
+      .changeLikeCardStatus(card._id, isLiked, token)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}`);
+      });
+  }
+
+  const handleUpdateUser = (name, about) => {
+    setEditProfilePopupButtonText("Сохранение...");
+    api
+      .setUserInfo(name, about, token)
+      .then((res) => {
+        setCurrentUser(res.data);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}`);
+      })
+      .finally(() => {
+        setEditProfilePopupButtonText("Сохранить");
+      });
+  };
+
+  const handleUpdateAvatar = ({ avatar }) => {
+    setEditAvatarPopupButton("Сохранение...");
+    api
+      .editAvatar(avatar, token)
+      .then((res) => {
+        console.log(res.data);
+        setCurrentUser(res.data);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}`);
+      })
+      .finally(() => {
+        setEditAvatarPopupButton("Сохранить");
+      });
+  };
+
+  function handleCardDelete(e) {
+    e.preventDefault();
+    setDeletePopupButtonText("Удаление...");
+    api
+      .deleteCard(deletingCard._id, token)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== deletingCard._id));
+        setDeletingCard(null);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}`);
+      })
+      .finally(() => {
+        setDeletePopupButtonText("Да");
+      });
+  }
+
+  function handleAddPlaceSubmit({ name, link }) {
+    setAddPlacePopupButton("Сохранение...");
+    api
+      .createCard(name, link, token)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}`);
+      })
+      .finally(() => {
+        setAddPlacePopupButton("Сохранить");
+      });
   }
 
   return (

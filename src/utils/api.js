@@ -30,18 +30,33 @@ class Api {
   }
 
   setUserInfo(name, info, token) {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}users/me`, {
       method: "PATCH",
       headers: {
         "Content-Type": this._contentType,
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ name, about: info }),
-    }).then(this._checkResult);
+      body: JSON.stringify(name, info),
+    })
+      .then(this._checkResult)
+      .catch((err) => this._errorHandler(err));
+  }
+
+  editAvatar(avatar, token) {
+    return fetch(`${this._baseUrl}users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": this._contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ avatar }),
+    })
+      .then(this._checkResponse)
+      .catch((err) => this._errorHandler(err));
   }
 
   createCard(name, link, token) {
-    return fetch(`${this._baseUrl}/cards`, {
+    return fetch(`${this._baseUrl}cards/`, {
       method: "POST",
       headers: {
         "Content-Type": this._contentType,
@@ -51,7 +66,9 @@ class Api {
         name,
         link,
       }),
-    }).then(this._checkResult);
+    })
+      .then(this._checkResult)
+      .catch((err) => this._errorHandler(err));
   }
 
   deleteCard(cardId, token) {
@@ -65,7 +82,7 @@ class Api {
   }
 
   putCardLike(cardId, token) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
       method: "PUT",
       headers: {
         "Content-Type": this._contentType,
@@ -86,29 +103,12 @@ class Api {
     }).then(this._checkResult);
   }
 
-  changeLikeCardStatus(cardId, token) {
-    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": this._contentType,
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(this._checkResult);
-  }
-
-  editAvatar(data, token) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": this._contentType,
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        avatar: data,
-      }),
-    })
-      .then(this._checkResponse)
-      .catch((err) => this._errorHandler(err));
+  changeLikeCardStatus(cardId, isLiked, token) {
+    if (isLiked) {
+      return api.deleteCardLike(cardId, token);
+    } else {
+      return api.putCardLike(cardId, token);
+    }
   }
 }
 

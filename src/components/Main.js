@@ -12,7 +12,7 @@ const Main = ({
   cards,
 }) => {
   const currentUser = useContext(CurrentUserContext);
-
+  console.log(currentUser.avatar);
   return (
     <React.Fragment>
       <section className="profile">
