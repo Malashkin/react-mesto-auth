@@ -51,7 +51,7 @@ class Api {
       },
       body: JSON.stringify({ avatar }),
     })
-      .then(this._checkResponse)
+      .then(this._checkResult)
       .catch((err) => this._errorHandler(err));
   }
 
